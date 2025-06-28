@@ -7,7 +7,7 @@ const app = express();
 
 // Middlewares
 app.use(cors({
-  origin: ['http://localhost:3000', 'https://lab15-front.vercel.app'], // <-- ajusta esto con tu dominio de Vercel si ya lo tienes
+  origin: ['http://localhost:3000', 'https://lab15-web-ixmb.vercel.app/'], // <-- ajusta esto con tu dominio de Vercel si ya lo tienes
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));
