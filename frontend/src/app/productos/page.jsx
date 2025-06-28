@@ -9,11 +9,11 @@ export default function ProductosPage() {
   const [modalOpen, setModalOpen] = useState(false);
   const [productoEliminar, setProductoEliminar] = useState(null);
   const router = useRouter();
+  const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
-  // Traer productos
   const fetchProductos = async () => {
     try {
-      const res = await fetch('http://localhost:3001/api/productos');
+      const res = await fetch(BASE_URL);
       if (!res.ok) throw new Error('Error al obtener productos');
       const data = await res.json();
       setProductos(data);
@@ -23,22 +23,19 @@ export default function ProductosPage() {
     }
   };
 
-  // Abrir modal con producto a eliminar
   const abrirModalEliminar = (codProducto) => {
     setProductoEliminar(codProducto);
     setModalOpen(true);
   };
 
-  // Cerrar modal
   const cerrarModal = () => {
     setModalOpen(false);
     setProductoEliminar(null);
   };
 
-  // Eliminar producto
   const eliminarProducto = async () => {
     try {
-      const res = await fetch(`http://localhost:3001/api/productos/${productoEliminar}`, {
+      const res = await fetch(`${BASE_URL}/${productoEliminar}`, {
         method: 'DELETE',
       });
 
@@ -66,17 +63,7 @@ export default function ProductosPage() {
 
       <div className="flex justify-center mb-6">
         <button
-          className="
-            rounded-full
-            px-6 py-3
-            bg-black text-white
-            hover:bg-white hover:text-black
-            hover:border hover:border-black/50
-            shadow-md
-            transition
-            duration-300
-            ease-in-out
-          "
+          className="rounded-full px-6 py-3 bg-black text-white hover:bg-white hover:text-black hover:border hover:border-black/50 shadow-md transition duration-300 ease-in-out"
           onClick={() => router.push('/productos/new')}
         >
           + Agregar Producto
@@ -88,10 +75,7 @@ export default function ProductosPage() {
           <thead className="bg-[#0d0d0d] text-white">
             <tr>
               {['Código', 'Nombre', 'Precio', 'Stock', 'Acciones'].map((title) => (
-                <th
-                  key={title}
-                  className="border border-gray-700 px-4 py-3 text-left font-semibold"
-                >
+                <th key={title} className="border border-gray-700 px-4 py-3 text-left font-semibold">
                   {title}
                 </th>
               ))}
@@ -107,10 +91,7 @@ export default function ProductosPage() {
             )}
 
             {productos.map((prod) => (
-              <tr
-                key={prod.codProducto}
-                className="bg-white hover:bg-[#e3eff2] transition-colors duration-300"
-              >
+              <tr key={prod.codProducto} className="bg-white hover:bg-[#e3eff2] transition-colors duration-300">
                 <td className="border border-gray-700 px-4 py-3">{prod.codProducto}</td>
                 <td className="border border-gray-700 px-4 py-3">{prod.nomPro}</td>
                 <td className="border border-gray-700 px-4 py-3">${prod.precioProducto}</td>
@@ -122,7 +103,6 @@ export default function ProductosPage() {
                     aria-label={`Editar producto ${prod.nomPro}`}
                   >
                     <PencilSquareIcon className="w-5 h-5" />
-                
                   </button>
                   <button
                     onClick={() => abrirModalEliminar(prod.codProducto)}
@@ -130,7 +110,6 @@ export default function ProductosPage() {
                     aria-label={`Eliminar producto ${prod.nomPro}`}
                   >
                     <TrashIcon className="w-5 h-5" />
-                    
                   </button>
                 </td>
               </tr>
@@ -139,13 +118,9 @@ export default function ProductosPage() {
         </table>
       </div>
 
-      {/* Modal Confirmación */}
       {modalOpen && (
         <>
-          <div
-            className="fixed inset-0 backdrop-blur-md z-50"
-            onClick={cerrarModal}
-          />
+          <div className="fixed inset-0 backdrop-blur-md z-50" onClick={cerrarModal} />
           <div className="fixed inset-0 flex items-center justify-center z-50">
             <div className="bg-white rounded-lg shadow-lg p-6 max-w-sm w-full text-center relative">
               <button
@@ -162,13 +137,13 @@ export default function ProductosPage() {
                   onClick={cerrarModal}
                   className="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400 transition"
                 >
-                  <XMarkIcon className ="w-6 h-6"> </XMarkIcon>
+                  <XMarkIcon className="w-6 h-6" />
                 </button>
                 <button
                   onClick={eliminarProducto}
                   className="px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700 transition"
                 >
-                 <TrashIcon className="w-5 h-5" />
+                  <TrashIcon className="w-5 h-5" />
                 </button>
               </div>
             </div>
