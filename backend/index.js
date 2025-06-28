@@ -7,10 +7,14 @@ const app = express();
 
 // Middlewares
 app.use(cors({
-  origin: ['http://localhost:3000', 'https://lab15-web-ixmb.vercel.app/'], // <-- ajusta esto con tu dominio de Vercel si ya lo tienes
+  origin: [
+    'http://localhost:3000',
+    'https://lab15-web-coral.vercel.app'
+  ],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));
+
 
 app.use(express.json());
 
