@@ -1,37 +1,32 @@
-// Importa Express para crear el servidor
 const express = require('express');
-
-// Importa CORS para permitir peticiones desde otros orígenes (por ejemplo, el frontend)
 const cors = require('cors');
-
-// Importa las rutas definidas para productos
 const productosRoutes = require('./routes/producto.routes');
-
-// Importa la instancia de conexión Sequelize a la base de datos
 const sequelize = require('./db');
 
-// Crea una aplicación de Express
 const app = express();
 
-// Middleware para permitir solicitudes desde otros dominios (evita errores de CORS)
+// Middlewares
 app.use(cors());
-
-// Middleware para poder recibir y procesar datos en formato JSON en las solicitudes
 app.use(express.json());
 
-// Asigna el enrutador de productos bajo la ruta base /api/productos
+// Ruta de prueba para verificar si el backend está vivo
+app.get('/', (req, res) => {
+  res.send('✅ Backend API en funcionamiento');
+});
+
+// Rutas de productos
 app.use('/api/productos', productosRoutes);
 
-// Sincroniza los modelos Sequelize con la base de datos (crea las tablas si no existen)
+// Usa el puerto de entorno o 3001 por defecto
+const PORT = process.env.PORT || 3001;
+
 sequelize.sync()
   .then(() => {
-    // Si la sincronización es exitosa, inicia el servidor en el puerto 3001
-    console.log('Base de datos sincronizada');
-    app.listen(3001, () => {
-      console.log('Backend corriendo en http://localhost:3001');
+    console.log('✅ Base de datos sincronizada');
+    app.listen(PORT, () => {
+      console.log(`🚀 Backend corriendo en http://localhost:${PORT}`);
     });
   })
   .catch(err => {
-    // Si ocurre un error al sincronizar con la base de datos, se muestra en consola
-    console.error('Error al sincronizar base de datos:', err);
+    console.error('❌ Error al sincronizar base de datos:', err);
   });
