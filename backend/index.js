@@ -6,7 +6,12 @@ const sequelize = require('./db');
 const app = express();
 
 // Middlewares
-app.use(cors());
+app.use(cors({
+  origin: ['http://localhost:3000', 'https://lab15-front.vercel.app'], // <-- ajusta esto con tu dominio de Vercel si ya lo tienes
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
+}));
+
 app.use(express.json());
 
 // Ruta de prueba para verificar si el backend está vivo
