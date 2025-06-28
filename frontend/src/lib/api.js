@@ -1,5 +1,5 @@
-// URL base del backend en producción (Render)
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+// Detecta si hay una URL definida en entorno (producción). Si no, usa localhost:3001
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api/productos";
 
 // Obtiene todos los productos (GET /api/productos)
 export async function getProductos() {
